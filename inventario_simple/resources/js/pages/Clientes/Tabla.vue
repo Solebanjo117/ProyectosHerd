@@ -19,7 +19,7 @@
           <td class="p-2">{{ cliente.telefono ?? '—' }}</td>
           <td class="p-2">{{ cliente.correo ?? '—' }}</td>
           <td class="p-2">{{ cliente.direccion ?? '—' }}</td>
-          <td class="p-2">${{ cliente.deuda.toFixed(2) }}</td>
+          <td class="p-2">${{ (cliente.deuda ?? 0).toFixed(2) }}</td>
           <td class="p-2">
             <button @click="router.get(`/clientes/${cliente.id}/edit`,{ },{ preserveScroll: false, preserveState: false })" class="text-blue-600 hover:underline">Editar</button>
           </td>

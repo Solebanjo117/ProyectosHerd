@@ -94,7 +94,7 @@ export interface Cliente {
   correo?: string | null;
   telefono?: string | null;
   direccion?: string | null;
-  deuda: number;
+  deuda?: number | null;
   created_at: string;
   updated_at: string;
 }

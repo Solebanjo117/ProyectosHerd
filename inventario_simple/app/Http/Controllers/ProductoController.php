@@ -84,6 +84,8 @@ class ProductoController extends Controller
     return response()->json([
         'nombre' => $producto->nombre,
         'producto_id' => $producto->id,
+        'precio'=>$producto->precio,
+        'codigo_barras'=>$producto->codigo_barras
     ]);
     }
 

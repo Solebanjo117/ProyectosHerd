@@ -46,7 +46,7 @@ class SalidasDetalleController extends Controller
     {
        
         $salida = Salidas::with('detalles')->find($id);
-        
+        $formulario = $request->input('formulario');
         $detalles = $request->input('detalles', []);
         $request->validate([
             'detalles' => 'required|min:1',
@@ -54,11 +54,11 @@ class SalidasDetalleController extends Controller
         ]);
         //al borrarse detalles, se suman las cantidades de los productos eliminados
         $salida->update([
-            'tipo' => $request->input('tipo'),
-            'cliente_id' => $request->input('cliente_id'),
-            'estado' => $request->input('estado'),
-            'referencia' => $request->input('referencia'),
-            'observaciones' => $request->input('observaciones'),
+            'tipo' => $formulario['tipo'],
+            'cliente_id' => $formulario['cliente_id'],
+            'estado' => $formulario['estado'],
+            'referencia' => $formulario['referencia'],
+            'observaciones' => $formulario['observaciones'],
         ]);
         foreach ($salida->detalles as $detalle) {
             Producto::where('id', $detalle['producto_id'])
