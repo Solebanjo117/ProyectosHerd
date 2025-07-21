@@ -12,7 +12,7 @@ const mostrar =ref(false); // Controla la visibilidad del formulario
 const isEditando = computed(() => props.salida && props.salida.id !== undefined);
 const form = useForm({
     id: props.salida?.id || null, // Si es una edición, se usa el ID existente o null si es nuevo
-    tipo: props.salida?.tipo || 'venta', // Por defecto 'venta' si no se especifica
+    tipo: props.salida?.tipo || 'Venta', // Por defecto 'venta' si no se especifica
     cliente_id: props.salida?.cliente_id || null,
     estado: props.salida?.estado || 'pendiente', // Por defecto 'pendiente'
     observaciones: props.salida?.observaciones || '',
@@ -36,10 +36,10 @@ function guardar() {
             <div class="flex-1 mr-2">
                 <label for="tipo" class="block text-sm font-medium text-white-700">Tipo</label>
             <select v-model="form.tipo" required id="tipo" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
-                <option value="" disabled selected >Seleccione una opcion</option>
-                <option value="venta">Venta</option>
-                <option value="devolucion">Devolución</option>
-                <option value="otro">Otro</option>
+                <option value=""  >Seleccione una opcion</option>
+                <option :selected="form.tipo == 'venta'" value="Venta">Venta</option>
+                <option :selected="form.tipo === 'devolucion'" value="Devolucion">Devolución</option>
+                <option :selected="form.tipo === 'otro'" value="Otro">Otro</option>
             </select>
             <div v-if="form.errors.tipo" class="text-red-500 text-sm">{{ form.errors.tipo }}</div>
             </div>
@@ -59,9 +59,9 @@ function guardar() {
                 <label for="estado" class="block text-sm font-medium text-white-700">Estado</label>
             <select v-model="form.estado" required id="estado" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
                 <option value="" disabled selected >Seleccione un estado</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="completado">Completado</option>
-                <option value="cancelado">Cancelado</option>
+                <option :selected="form.estado === 'Pendiente'" value="Pendiente">Pendiente</option>
+                <option :selected="form.estado === 'Completado'" value="Completado">Completado</option>
+                <option :selected="form.estado === 'Cancelado'" value="Cancelado">Cancelado</option>
             </select>
             <div v-if="form.errors.estado" class="text-red-500 text-sm">{{ form.errors.estado }}</div>
             </div>
