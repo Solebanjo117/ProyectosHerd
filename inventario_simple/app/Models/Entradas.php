@@ -19,4 +19,9 @@ class Entradas extends Model
     {
         return $this->hasMany(EntradasDetalle::class, 'entrada_id');
     }
+    
+    public function getUpdatedAtFormattedAttribute()
+    {
+        return $this->updated_at->format('d/m/Y H:i');
+    }
 }

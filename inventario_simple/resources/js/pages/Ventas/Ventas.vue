@@ -69,71 +69,171 @@ function addRow(data: any) {
 }
 </script>
 <template>
-
-    <Head title="Ventas" />
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <form @submit.prevent="guardar">
-        <div class="container">
-            <h2 class="text-center">Ventas</h2>
-            <label for="">Codigo de barras <input type="text" @keypress="agregarProducto" class="border rounded"
-                    placeholder="Codigo de barrras"></label>
-            <SearchAutocomplete :datos="clientes" @select="handleSelect" />
-            <div class="justify-center flex">
-                <table class=" min-w-full bg-black border border-gray-500 rounded-lg overflow-hidden">
-                    <thead>
-                        <th>Codigo de barras</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio unitario</th>
-                        <th>Total</th>
-                        <th>Eliminar</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="producto, index in form.productos" :key="producto.producto_id"
-                            class="border-t text-center">
-                            <td>{{ producto.codigo_barras }}</td>
-                            <td>{{ producto.nombre }}</td>
-                            <td><input type="number" v-model.number="producto.cantidad" class="text-center" min="1">
-                            </td>
-                            <td><input type="number" v-model.number="producto.precio_unitario" step="0.01"
-                                    class="text-center" min="1"></td>
-                            <td>${{ (producto.cantidad * producto.precio_unitario).toFixed(2) }}</td>
-                            <td><button @click="form.productos.splice(index, 1)"
-                                    class="p-1 mt-1 bg-red-500 rounded min-h-full cursor-pointer">
-                                    <Trash2 />
-                                </button></td>
-                        </tr>
-                    </tbody>
-                    <tfoot class="text-center">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Total</td>
-                            <td>${{ total.toFixed(2) }}</td>
-                        </tr>
-                        <tr class="bg-gray-800 text-center">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinero recibido</td>
-                            <td><input class="text-center bg-gray-500" v-model="recibido" type="number" min="1"></td>
-                            <td></td>
-                        </tr>
-                        <tr class="bg-gray-800 text-center">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Cambio</td>
-                            <td>${{ recibido - parseInt(total.toFixed(2)) }}</td>
-                            <td></td>
-                        </tr>
-
-                    </tfoot>
-                </table>
-            </div>
-            <div class="flex justify-center mt-10"> <Button class="cursor-pointer" type="submit">Hacer venta</Button></div>
+  <Head title="Ventas" />
+  <AppLayout :breadcrumbs="breadcrumbs">
+    <form @submit.prevent="guardar" class="p-6 max-w-7xl mx-auto">
+      <div class="bg-gray-800 rounded-lg shadow-2xl overflow-hidden border border-gray-700">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-gray-900 to-gray-800 px-6 py-4 border-b border-gray-700">
+          <h2 class="text-2xl font-bold text-white text-center">Sistema de Ventas</h2>
         </div>
-        </form>
-    </AppLayout>
+
+        <!-- Form Content -->
+        <div class="p-6 space-y-6">
+          <!-- Input Section -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Código de Barras -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-300">
+                Código de Barras
+              </label>
+              <input 
+                type="text" 
+                @keydown.enter.prevent="agregarProducto" 
+                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-colors text-white placeholder-gray-400"
+                placeholder="Escanea o ingresa el código de barras"
+              >
+            </div>
+
+            <!-- Cliente -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-300">
+                Cliente
+              </label>
+              <SearchAutocomplete :datos="clientes" @select="handleSelect" />
+            </div>
+          </div>
+
+          <!-- Tabla de Productos -->
+          <div class="bg-gray-900 rounded-lg p-4 border border-gray-700">
+            <div class="overflow-x-auto">
+              <table class="w-full bg-gray-800 border border-gray-600 rounded-lg overflow-hidden shadow-lg">
+                <thead>
+                  <tr class="bg-gray-700 border-b border-gray-600">
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      Código
+                    </th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      Producto
+                    </th>
+                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      Cantidad
+                    </th>
+                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      Precio Unit.
+                    </th>
+                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      Total
+                    </th>
+                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      Acción
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-600">
+                  <tr v-for="producto, index in form.productos" :key="producto.producto_id" 
+                      class="hover:bg-gray-700 transition-colors">
+                    <td class="px-4 py-3 text-sm text-gray-300">
+                      {{ producto.codigo_barras }}
+                    </td>
+                    <td class="px-4 py-3 text-sm font-medium text-white">
+                      {{ producto.nombre }}
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <input 
+                        type="number" 
+                        @keydown.enter.prevent="" 
+                        v-model.number="producto.cantidad" 
+                        class="w-20 px-2 py-1 text-center bg-gray-700 border border-gray-600 rounded focus:ring-1 focus:ring-blue-400 focus:border-blue-400 text-white" 
+                        min="1"
+                      >
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <input 
+                        type="number" 
+                        @keydown.enter.prevent="" 
+                        v-model.number="producto.precio_unitario" 
+                        step="0.01"
+                        class="w-24 px-2 py-1 text-center bg-gray-700 border border-gray-600 rounded focus:ring-1 focus:ring-blue-400 focus:border-blue-400 text-white" 
+                        min="1"
+                      >
+                    </td>
+                    <td class="px-4 py-3 text-center text-sm font-semibold text-green-400">
+                      ${{ (producto.cantidad * producto.precio_unitario).toFixed(2) }}
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <button 
+                        @click="form.productos.splice(index, 1)"
+                        class="inline-flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+                        type="button"
+                      >
+                        <Trash2 class="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                  <tr v-if="form.productos.length === 0">
+                    <td colspan="6" class="px-4 py-8 text-center text-gray-400 italic">
+                      No hay productos agregados
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Totales Section -->
+          <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg p-6 border border-gray-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- Subtotal -->
+              <div class="bg-gray-800 rounded-lg p-4 shadow-lg border border-gray-600">
+                <div class="text-center">
+                  <div class="text-sm font-medium text-gray-400 uppercase">Subtotal</div>
+                  <div class="text-2xl font-bold text-white">${{ total.toFixed(2) }}</div>
+                </div>
+              </div>
+
+              <!-- Dinero Recibido -->
+              <div class="bg-gray-800 rounded-lg p-4 shadow-lg border border-gray-600">
+                <div class="text-center space-y-2">
+                  <label class="block text-sm font-medium text-gray-400 uppercase">
+                    Dinero Recibido
+                  </label>
+                  <input 
+                    @keydown.enter.prevent="" 
+                    class="w-full px-3 py-2 text-center text-xl font-bold bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 text-white placeholder-gray-400" 
+                    v-model="recibido" 
+                    type="number" 
+                    min="1"
+                    placeholder="0.00"
+                  >
+                </div>
+              </div>
+
+              <!-- Cambio -->
+              <div class="bg-green-900 rounded-lg p-4 shadow-lg border border-green-700">
+                <div class="text-center">
+                  <div class="text-sm font-medium text-green-400 uppercase">Cambio</div>
+                  <div class="text-2xl font-bold text-green-300">
+                    ${{  recibido - parseInt(total.toFixed(2))  }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex justify-center pt-4">
+            <Button 
+              class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-200 focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-800" 
+              type="submit"
+            >
+              <span class="flex items-center space-x-2">
+                <span>Completar Venta</span>
+              </span>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </AppLayout>
 </template>

@@ -2,9 +2,9 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { defineProps,computed } from 'vue';
-import Tabla from './Tabla.vue';
 import { Entrada,Pagination } from '@/types';
 import Form from './Form.vue';
+import AutoTable from '../components/AutoTable.vue';
 import { router } from '@inertiajs/vue3';
 import Button from '@/components/ui/button/Button.vue';
 import PaginationLinks from '../components/PaginationLinks.vue';
@@ -25,6 +25,14 @@ const breadcrumbs = computed(() => {
 
   return items;
 });
+
+const columnas= [
+    { key: 'id', label: 'ID' },
+    { key: 'referencia', label: 'Referencia' },
+    { key: 'tipo', label: 'Tipo' },
+    { key: 'observaciones', label: 'Observaciones' },
+    { key: 'updated_at_formatted', label: 'Fecha' },
+];
 </script>
 <template>
     <Head title="Entradas"></Head>
@@ -38,7 +46,7 @@ const breadcrumbs = computed(() => {
     <div v-if="modo" class="flex justify-center my-4">
   <Form :entrada="entrada" />
 </div>     
-<Tabla :entradas="entradas.data"></Tabla>
+<AutoTable :data="entradas.data" :columns="columnas" route="entradas" />
 <Button class=" max-w-md mx-auto block hover:cursor-pointer"
       @click="router.get('/entradas/create', {}, { preserveScroll: false, preserveState: false })">
       Agregar Entrada

@@ -11,21 +11,27 @@ use Inertia\Inertia;
 class EntradasController extends Controller
 {
    public function index(){
+    $entradas = Entradas::orderBy('created_at', 'desc')->paginate(5);
+    $entradas->getCollection()->each->append('updated_at_formatted');
         return Inertia::render('Entradas/Entradas', [
-             'entradas' => Entradas::orderBy('created_at', 'desc')->paginate(5),
+             'entradas' => $entradas,
         ]);
    }
      public function create(){
+        $entradas = Entradas::orderBy('created_at', 'desc')->paginate(5);
+    $entradas->getCollection()->each->append('updated_at_formatted');
           return Inertia::render('Entradas/Entradas', [
-                 'entradas' => Entradas::orderBy('created_at', 'desc')->paginate(5),
+                 'entradas' => $entradas,
                  'modo' => "create", //create-edit
                  'entrada' => new Entradas(), // Crear una nueva entrada
           ]);
     }
     public function edit(string $id){
+        $entradas = Entradas::orderBy('created_at', 'desc')->paginate(5);
+    $entradas->getCollection()->each->append('updated_at_formatted');
         $entrada = Entradas::with('detalles.producto')->find($id);
           return Inertia::render('Entradas/Entradas', [
-                 'entradas' => Entradas::orderBy('created_at', 'desc')->paginate(5),
+                 'entradas' => $entradas,
                  'modo' => "edit", //create-edit
                  'entrada' => $entrada, // Editar una entrada existente
           ]);
