@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
-    <table class="min-w-full bg-black border border-gray-300 rounded-lg overflow-hidden">
-      <thead class="bg-black-100  text-white-700">
+    <table class="min-w-full bg-gray-800 border border-gray-600 rounded-lg overflow-hidden shadow-lg">
+      <thead  class="bg-gray-700 border-b border-gray-600">
         <tr>
           <th class="text-center p-2">ID</th>
           <th class="text-center p-2">Nombre</th>
@@ -15,8 +15,8 @@
           <th class="text-center p-2">Acciones</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="producto in props.productos" :key="producto.id" class="border-t">
+      <tbody class="divide-y divide-gray-600 ">
+        <tr v-for="producto in props.productos" :key="producto.id" class="border-t hover:bg-gray-700 transition-colors">
 
           <td class="p-2">{{ producto.id }}</td>
           <td class="p-2">{{ producto.nombre }}</td>

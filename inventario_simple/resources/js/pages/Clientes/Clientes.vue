@@ -50,7 +50,7 @@ const breadcrumbs = computed(() => {
     <div v-if="modo" class="flex justify-center my-4">
   <Form :cliente="cliente" />
 </div>
-      <AutoTable :data="clientes.data" :columns="columnas" route="clientes" />
+      <AutoTable :data="clientes.data" :columns="columnas" route="clientes"  class="m-4"/>
       <Button class=" max-w-md mx-auto block hover:cursor-pointer"
       @click="router.get('/clientes/create', {}, { preserveScroll: false, preserveState: false })">
       Agregar Cliente

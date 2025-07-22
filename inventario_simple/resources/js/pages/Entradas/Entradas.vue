@@ -46,7 +46,10 @@ const columnas= [
     <div v-if="modo" class="flex justify-center my-4">
   <Form :entrada="entrada" />
 </div>     
+<div class="container mx-auto p-4 ">
+
 <AutoTable :data="entradas.data" :columns="columnas" route="entradas" />
+</div>
 <Button class=" max-w-md mx-auto block hover:cursor-pointer"
       @click="router.get('/entradas/create', {}, { preserveScroll: false, preserveState: false })">
       Agregar Entrada
