@@ -38,7 +38,7 @@ const columnas= [
     <Head title="Entradas"></Head>
     <Head v-if="modo" :title="modo === 'edit'? 'Edición de entrada' :'Creación de entrada'"></Head>
   
-<AppLayout :breadcrumbs="breadcrumbs">
+<AppLayout :breadcrumbs="breadcrumbs" >
      <div class=" text-center mt-1">
         <h2 class="text-xl font-semibold">Lista de entradas</h2>
         <p class="text-white-600 mb-4">Aquí puedes ver y gestionar todas las entradas.</p>
