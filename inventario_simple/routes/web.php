@@ -8,15 +8,7 @@ Route::get('/', function () {
     return Inertia::render('Bienvenido' );
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-/*Route::get('productos', function () {
-    return Inertia::render('Productos/Productos', [
-        'productos' => Producto::orderBy('activo', 'desc')->paginate(5),
-    ]);
-})->middleware(['auth', 'verified'])->name('productos');*/
 Route::middleware(['auth', 'verified'])->group(function () {
     //Productos
   Route::resource('productos', \App\Http\Controllers\ProductoController::class)
@@ -40,6 +32,7 @@ Route::resource('clientes', \App\Http\Controllers\Cliente::class)
     ->name('salidasDetalle.store');
     Route::put('salidasDetalle/{id}', [\App\Http\Controllers\SalidasDetalleController::class, 'update'])
     ->name('salidasDetalle.update');
+    Route::get('dashboard', [\App\Http\Controllers\Graficas::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 });
 
 
